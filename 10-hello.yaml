@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: hello
+  name: hello
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: hello
+  template:
+    metadata:
+      labels:
+        run: hello
+    spec:
+      containers:
+      - image: nginx
+        name: hello
+        resources:
+          limits:
+            cpu: "100m"
+      nodeSelector:
+        option: breakable
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: hello
+  name: hello
+  namespace: default
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    run: hello
+  type: ClusterIP
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: default
+  name: hello
+spec:
+  rules:
+  - host: hello.192.168.99.130.xip.io
+    http:
+      paths:
+      - backend:
+          serviceName: hello
+          servicePort: 80
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hello
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: hello
+  minReplicas: 3
+  maxReplicas: 30
+  targetCPUUtilizationPercentage: 30
