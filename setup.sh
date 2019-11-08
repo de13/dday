@@ -1,4 +1,6 @@
 #! /bin/bash -x
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+kubectl create configmap hack --from-file=hack.sh
 kubectl create -f 00-prereq.yaml
 kubectl create -f 01-cdi-operator.yaml
 kubectl wait --for=condition=available --timeout=600s deployment/cdi-operator -n cdi

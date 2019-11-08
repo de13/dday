@@ -1,3 +1,4 @@
-#! /bin/bash -x
-
-ab -n 100000 -c 200 http://hello.192.168.99.130.xip.io:80/
+#/bin/bash -x
+kubectl delete -f job-ab.yaml
+kubectl create -f job-ab.yaml
+watch -n 1 kubectl get pods 

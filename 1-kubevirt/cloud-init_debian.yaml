@@ -65,17 +65,3 @@ spec:
   selector:
     image: debian9
   type: ClusterIP
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: debian9-front
-spec:
-  rules:
-    - host: nginx.34.70.102.106.xip.io
-      http:
-        paths:
-        - path: /
-          backend:
-            serviceName: debian9-http
-            servicePort: 80

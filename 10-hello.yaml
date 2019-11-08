@@ -41,21 +41,6 @@ spec:
   type: ClusterIP
 
 ---
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  namespace: default
-  name: hello
-spec:
-  rules:
-  - host: hello.192.168.99.130.xip.io
-    http:
-      paths:
-      - backend:
-          serviceName: hello
-          servicePort: 80
-
----
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -67,5 +52,5 @@ spec:
     kind: Deployment
     name: hello
   minReplicas: 3
-  maxReplicas: 30
+  maxReplicas: 100
   targetCPUUtilizationPercentage: 30

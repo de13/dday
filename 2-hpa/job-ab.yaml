@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: apachebench
+spec:
+  completions: 6
+  parallelism: 2
+  template:
+    spec:
+      containers:
+      - name: apachebench
+        image: saphoooo/ab:latest
+        command: ['ab', '-k', '-t 30', '-c 20', 'http://hello:80/']
+      restartPolicy: Never
