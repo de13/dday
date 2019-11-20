@@ -11,4 +11,4 @@ spec:
       - name: apachebench
         image: saphoooo/ab:latest
         command: ['ab', '-k', '-t 30', '-c 20', 'http://hello:80/']
-      restartPolicy: Never
+      restartPolicy: OnFailure

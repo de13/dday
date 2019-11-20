@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: ubuntu
+  labels:
+    security: trusted
   annotations:
     container.apparmor.security.beta.kubernetes.io/ubuntu: unconfined
 spec:
@@ -21,3 +23,15 @@ spec:
       name: hack
   nodeSelector:
     option: breakable
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: security
+              operator: In
+              values:
+              - untrusted
+          topologyKey: failure-domain.beta.kubernetes.io/host

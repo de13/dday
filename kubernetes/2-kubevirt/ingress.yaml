@@ -5,7 +5,7 @@ metadata:
   name: debian9-front
 spec:
   rules:
-    - host: nginx.34.70.102.106.xip.io
+    - host: nginx.35.226.101.191.xip.io
       http:
         paths:
         - path: /

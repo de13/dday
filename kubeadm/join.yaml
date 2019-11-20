@@ -1,0 +1,13 @@
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: JoinConfiguration
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: "10.128.0.30:6443"
+    token: devops.dday20191113mars
+    unsafeSkipCAVerification: true
+nodeRegistration:
+  criSocket: "/var/run/containerd/containerd.sock"
+  kubeletExtraArgs:
+    cloud-provider: "gce"
+    node-labels: option=breakable
+  taints: []

@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: ubuntu-untrusted
+  labels:
+    security: untrusted
   annotations:
     container.apparmor.security.beta.kubernetes.io/ubuntu: unconfined
     io.kubernetes.cri.untrusted-workload: "true"
@@ -20,3 +22,17 @@ spec:
   - name: scripts
     configMap:
       name: hack
+  nodeSelector:
+    option: breakable
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: security
+              operator: In
+              values:
+              - trusted
+          topologyKey: failure-domain.beta.kubernetes.io/host
